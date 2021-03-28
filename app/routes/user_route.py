@@ -17,3 +17,7 @@ def login_user(login_user:LoginUserSchema):
 @router.get('/getUser')
 def get_user(userid=Depends(auth_service.auth_wrapper)):
     return user_service.get_user(userid)
+
+@router.put('/forgotPassword')
+def reset_password(reset_password:RegisterUserSchema):
+    return user_service.reset_password(reset_password)
