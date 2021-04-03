@@ -1,8 +1,8 @@
 import pymongo
 from pymongo import MongoClient
-from dotenv import dotenv_values,find_dotenv
+from dotenv import dotenv_values, find_dotenv
 
-config=dotenv_values(find_dotenv())
+config = dotenv_values(find_dotenv())
 
 cluster = MongoClient(config["MONGO_URL"])
 db = cluster[config["DATABASE"]]

@@ -6,6 +6,6 @@ app = FastAPI()
 app.include_router(UserRouter, tags=["User"], prefix="/user")
 
 
-@app.get("/",tags=["Root"])
+@app.get("/", tags=["Root"])
 def read_root():
-    return {"Message":"Welcome to DermaCam Backend End !!!"}
+    return {"Message": "Welcome to DermaCam Backend End !!!"}
