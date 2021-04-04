@@ -52,7 +52,7 @@ def login_user(user):
 def get_user(userid):
     currentUser = user_collection.find_one({'_id': ObjectId(userid)})
     print(currentUser)
-    return {"Data": user_helper(currentUser)}
+    return {"data": user_helper(currentUser)}
 
 
 def reset_password(user):
@@ -65,7 +65,7 @@ def reset_password(user):
         hashed_password = auth_service.get_password_hash(user.password)
         get_user["password"] = hashed_password
         user_collection.save(get_user)
-        return {"Data": get_user['email'],
+        return {"data": get_user['email'],
                 'message': 'Password reset successfully'}
     else:
         raise HTTPException(status_code=401, detail='Invalid email')
