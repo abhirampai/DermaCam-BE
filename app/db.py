@@ -4,7 +4,6 @@ from pymongo import MongoClient
 from dotenv import dotenv_values, find_dotenv
 
 config = dotenv_values(find_dotenv())
-print(os.environ.get("MONGO_URL"))
 cluster = MongoClient(os.environ.get("MONGO_URL"))
 db = cluster[os.environ.get("DATABASE")]
 user_collection = db[os.environ.get("USERS")]
