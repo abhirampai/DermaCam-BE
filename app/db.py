@@ -16,7 +16,7 @@ db = cluster[db_config]
 user_collection = db[user_collection_config]
 image_collection = db[image_collection_config]
 cloudinary.config( 
-  cloud_name = config["CLOUDNAME"], 
-  api_key = config["CLOUDINARYAPI"], 
-  api_secret = config["CLOUDINARYAPISECRET"] 
+  cloud_name = os.environ.get("CLOUDNAME") or config["CLOUDNAME"], 
+  api_key = os.environ.get("CLOUDINARYAPI") or config["CLOUDINARYAPI"], 
+  api_secret = os.environ.get("CLOUDINARYAPISECRET") or config["CLOUDINARYAPISECRET"] 
 )
