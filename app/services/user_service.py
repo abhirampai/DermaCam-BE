@@ -12,6 +12,8 @@ def user_helper(user) -> dict:
     return {
         "user_id": str(user["_id"]),
         "email": user["email"],
+        "firstName": user["firstName"],
+        "lastName": user["lastName"],
     }
 
 
