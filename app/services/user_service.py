@@ -51,7 +51,6 @@ def login_user(user):
 
 def get_user(userid):
     currentUser = user_collection.find_one({'_id': ObjectId(userid)})
-    print(currentUser)
     return {"data": user_helper(currentUser)}
 
 
