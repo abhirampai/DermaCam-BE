@@ -8,7 +8,8 @@ class LoginUserSchema(BaseModel):
 
 
 class LoginResponseModel(BaseModel):
-        token: str
+    token: str
+
 
 class GetUserResponseModel(BaseModel):
     data = {
@@ -18,6 +19,7 @@ class GetUserResponseModel(BaseModel):
         "lastName": "str",
     }
 
+
 class ResetPasswordResponseModel(BaseModel):
-    data:EmailStr
+    data: EmailStr
     message = "Password reset successfully"

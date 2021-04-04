@@ -1,18 +1,18 @@
 from fastapi import APIRouter, Depends
-from ..schemas.RegisterUserSchema import RegisterUserSchema,RegisterResponseModel
-from ..schemas.LoginUserSchema import LoginUserSchema,LoginResponseModel,GetUserResponseModel,ResetPasswordResponseModel
+from ..schemas.RegisterUserSchema import RegisterUserSchema, RegisterResponseModel
+from ..schemas.LoginUserSchema import LoginUserSchema, LoginResponseModel, GetUserResponseModel, ResetPasswordResponseModel
 from ..services import (user_service, auth_service,)
 
 router = APIRouter()
 auth_service = auth_service.AuthHandler()
 
 
-@router.post("/register", response_description="User registration",response_model=RegisterResponseModel)
+@router.post("/register", response_description="User registration", response_model=RegisterResponseModel)
 def add_user(register_user: RegisterUserSchema):
     return user_service.add_user(register_user)
 
 
-@router.post("/login", response_description="User login",response_model=LoginResponseModel)
+@router.post("/login", response_description="User login", response_model=LoginResponseModel)
 def login_user(login_user: LoginUserSchema):
     return user_service.login_user(login_user)
 
