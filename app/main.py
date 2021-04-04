@@ -5,9 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "http://localhost:8000",
-    "https://dermacam-be.herokuapp.com/",
-    "http://dermacam-be.herokuapp.com/"
+    "*"
 ]
 
 app.add_middleware(
