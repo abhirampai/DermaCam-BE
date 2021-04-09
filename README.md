@@ -1,5 +1,8 @@
 # DermaCam-BE
 Backend Of Derma Cam Project
+<br>
+![Heroku](https://heroku-badge.herokuapp.com/?app=dm-discord-bot-pai)
+<br>
 
 To run the app use uvicorn app.main:app --reload <br>
 
