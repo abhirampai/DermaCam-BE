@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from ..schemas.RegisterUserSchema import RegisterUserSchema, RegisterResponseModel
+from ..schemas.RegisterUserSchema import RegisterUserSchema, RegisterResponseModel, ResetPasswordSchema
 from ..schemas.LoginUserSchema import LoginUserSchema, LoginResponseModel, GetUserResponseModel, ResetPasswordResponseModel
 from ..services import (user_service, auth_service,)
 
@@ -23,5 +23,5 @@ def get_user(userid=Depends(auth_service.auth_wrapper)):
 
 
 @router.put('/forgotPassword', response_description="Reset users password", response_model=ResetPasswordResponseModel)
-def reset_password(reset_password: RegisterUserSchema):
+def reset_password(reset_password: ResetPasswordSchema):
     return user_service.reset_password(reset_password)
