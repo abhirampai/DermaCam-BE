@@ -29,7 +29,9 @@ def add_user(user):
     hashed_password = auth_service.get_password_hash(user.password)
     user.password = hashed_password
     del user.confirmPassword
-    user_collection.insert_one(jsonable_encoder(user))
+    new_user = jsonable_encoder(user)
+    new_user["healthDetailStatus"]=0
+    user_collection.insert_one(new_user)
     del user.password
     return {"data": user,
             "message": "user created successfully"}
@@ -53,6 +55,17 @@ def get_user(userid):
     currentUser = user_collection.find_one({'_id': ObjectId(userid)})
     return {"data": user_helper(currentUser)}
 
+def add_patient_details(userid,patient_data):
+    currentUser = user_collection.find_one({'_id':ObjectId(userid)})
+    if currentUser["healthDetailStatus"]==0:
+        currentUser["patient_data"]=jsonable_encoder(patient_data)
+        currentUser["healthDetailStatus"]=1
+        user_collection.save(currentUser)
+        return {"data":user_helper(currentUser)}
+    else:
+        raise HTTPException(
+                status_code=400,
+                detail='Details Already Entered')
 
 def reset_password(user):
     get_user = user_collection.find_one({"email": user.email})
