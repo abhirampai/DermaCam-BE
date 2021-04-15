@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from ..schemas.RegisterUserSchema import RegisterUserSchema, RegisterResponseModel, ResetPasswordSchema
-from ..schemas.PatientHealthSchema import PatientHealthSchema
+from ..schemas.PatientHealthSchema import PatientHealthSchema,GetHealthStatus
 from ..schemas.LoginUserSchema import LoginUserSchema, LoginResponseModel, GetUserResponseModel, ResetPasswordResponseModel
 from ..services import (user_service, auth_service,)
 
@@ -30,3 +30,8 @@ def add_patient_details(patient_data: PatientHealthSchema,userid=Depends(auth_se
 @router.put('/forgotPassword', response_description="Reset users password", response_model=ResetPasswordResponseModel)
 def reset_password(reset_password: ResetPasswordSchema):
     return user_service.reset_password(reset_password)
+
+@router.get('/userHealthDetailStatus',response_description="Check whether users health details are entered", response_model=GetHealthStatus)
+def get_status(userid=Depends(auth_service.auth_wrapper)):
+    return user_service.get_health_detail_status(userid)
+

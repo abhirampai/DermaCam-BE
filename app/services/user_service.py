@@ -81,3 +81,14 @@ def reset_password(user):
                 'message': 'Password reset successfully'}
     else:
         raise HTTPException(status_code=401, detail='Invalid email')
+
+def get_health_detail_status(userid):
+    currentUser = user_collection.find_one({'_id':ObjectId(userid)})
+    if(currentUser["healthDetailStatus"]==1):
+        return {
+            "data":True
+        }
+    else:
+        return {
+            "data":False
+        }
