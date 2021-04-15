@@ -16,6 +16,11 @@ def user_helper(user) -> dict:
         "lastName": user["lastName"],
     }
 
+def user_health_status(user) -> dict:
+    return {
+        "patient_data":user["patient_data"]
+    }
+
 
 def add_user(user):
     find_user = user_collection.find_one({'email': user.email})
@@ -92,3 +97,15 @@ def get_health_detail_status(userid):
         return {
             "data":False
         }
+
+def get_user_health_detail(userid):
+    current_user = user_collection.find_one({'_id':ObjectId(userid)})
+    try:
+        if(current_user["patient_data"]):
+            return {
+                "data": user_health_status(current_user)
+            }
+    except:
+        raise HTTPException(status_code=401, detail='Health details not entered')
+
+
