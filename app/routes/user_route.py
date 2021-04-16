@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from ..schemas.RegisterUserSchema import RegisterUserSchema, RegisterResponseModel, ResetPasswordSchema
-from ..schemas.PatientHealthSchema import PatientHealthSchema,GetHealthStatus
+from ..schemas.PatientHealthSchema import PatientHealthSchema, GetHealthStatus
 from ..schemas.LoginUserSchema import LoginUserSchema, LoginResponseModel, GetUserResponseModel, ResetPasswordResponseModel
 from ..services import (user_service, auth_service,)
 
@@ -22,19 +22,22 @@ def login_user(login_user: LoginUserSchema):
 def get_user(userid=Depends(auth_service.auth_wrapper)):
     return user_service.get_user(userid)
 
-@router.post('/patientHealthDetails',response_description="Patients Health Details")
-def add_patient_details(patient_data: PatientHealthSchema,userid=Depends(auth_service.auth_wrapper)):
-    return user_service.add_patient_details(userid,patient_data)
+
+@router.post('/patientHealthDetails', response_description="Patients Health Details")
+def add_patient_details(patient_data: PatientHealthSchema, userid=Depends(auth_service.auth_wrapper)):
+    return user_service.add_patient_details(userid, patient_data)
 
 
 @router.put('/forgotPassword', response_description="Reset users password", response_model=ResetPasswordResponseModel)
 def reset_password(reset_password: ResetPasswordSchema):
     return user_service.reset_password(reset_password)
 
-@router.get('/userHealthDetailStatus',response_description="Check whether user's health details are entered", response_model=GetHealthStatus)
+
+@router.get('/userHealthDetailStatus', response_description="Check whether user's health details are entered", response_model=GetHealthStatus)
 def get_status(userid=Depends(auth_service.auth_wrapper)):
     return user_service.get_health_detail_status(userid)
 
-@router.get('/userHealthDetail',response_description="Get user's health details")
+
+@router.get('/userHealthDetail', response_description="Get user's health details")
 def get_user_health_details(userid=Depends(auth_service.auth_wrapper)):
     return user_service.get_user_health_detail(userid)

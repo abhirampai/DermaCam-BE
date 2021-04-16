@@ -8,10 +8,13 @@ class RegisterUserSchema(BaseModel):
     password: str
     confirmPassword: str
 
+
 class ResetPasswordSchema(BaseModel):
-    email:EmailStr
+    email: EmailStr
     password: str
     confirmPassword: str
+
+
 class RegisterResponseModel(BaseModel):
     data = {
         "firstName": "str",

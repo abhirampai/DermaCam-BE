@@ -16,9 +16,10 @@ def user_helper(user) -> dict:
         "lastName": user["lastName"],
     }
 
+
 def user_health_status(user) -> dict:
     return {
-        "patient_data":user["patient_data"]
+        "patient_data": user["patient_data"]
     }
 
 
@@ -35,7 +36,7 @@ def add_user(user):
     user.password = hashed_password
     del user.confirmPassword
     new_user = jsonable_encoder(user)
-    new_user["healthDetailStatus"]=0
+    new_user["healthDetailStatus"] = 0
     user_collection.insert_one(new_user)
     del user.password
     return {"data": user,
@@ -60,17 +61,19 @@ def get_user(userid):
     currentUser = user_collection.find_one({'_id': ObjectId(userid)})
     return {"data": user_helper(currentUser)}
 
-def add_patient_details(userid,patient_data):
-    currentUser = user_collection.find_one({'_id':ObjectId(userid)})
-    if currentUser["healthDetailStatus"]==0:
-        currentUser["patient_data"]=jsonable_encoder(patient_data)
-        currentUser["healthDetailStatus"]=1
+
+def add_patient_details(userid, patient_data):
+    currentUser = user_collection.find_one({'_id': ObjectId(userid)})
+    if currentUser["healthDetailStatus"] == 0:
+        currentUser["patient_data"] = jsonable_encoder(patient_data)
+        currentUser["healthDetailStatus"] = 1
         user_collection.save(currentUser)
-        return {"data":user_helper(currentUser)}
+        return {"data": user_helper(currentUser)}
     else:
         raise HTTPException(
-                status_code=400,
-                detail='Details Already Entered')
+            status_code=400,
+            detail='Details Already Entered')
+
 
 def reset_password(user):
     get_user = user_collection.find_one({"email": user.email})
@@ -87,19 +90,21 @@ def reset_password(user):
     else:
         raise HTTPException(status_code=401, detail='Invalid email')
 
+
 def get_health_detail_status(userid):
-    currentUser = user_collection.find_one({'_id':ObjectId(userid)})
-    if(currentUser["healthDetailStatus"]==1):
+    currentUser = user_collection.find_one({'_id': ObjectId(userid)})
+    if(currentUser["healthDetailStatus"] == 1):
         return {
-            "data":True
+            "data": True
         }
     else:
         return {
-            "data":False
+            "data": False
         }
 
+
 def get_user_health_detail(userid):
-    current_user = user_collection.find_one({'_id':ObjectId(userid)})
+    current_user = user_collection.find_one({'_id': ObjectId(userid)})
     try:
         if(current_user["patient_data"]):
             return {
@@ -107,5 +112,3 @@ def get_user_health_detail(userid):
             }
     except:
         raise HTTPException(status_code=401, detail='Health details not entered')
-
-

@@ -24,9 +24,10 @@ app.include_router(UserRouter, tags=["User"], prefix="/user")
 def read_root():
     return {"Message": "Welcome to DermaCam Backend End !!!"}
 
-@app.post("/uploadImage",response_description="Return Image Url")
+
+@app.post("/uploadImage", response_description="Return Image Url")
 async def uploadImage(image: UploadFile = File(...)):
     result = cloudinary.uploader.upload(image.file)
     return {
-        'data':result['url']
-        }
+        'data': result['url']
+    }
