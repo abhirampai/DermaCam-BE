@@ -3,7 +3,7 @@ from .auth_service import AuthHandler
 from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException
 from bson.objectid import ObjectId
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 from keras.preprocessing import image
 import urllib.request
 import cv2
