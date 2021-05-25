@@ -1,4 +1,4 @@
-from ..db import user_collection
+from ..db import user_collection,product_collection
 from .auth_service import AuthHandler
 from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException
@@ -23,6 +23,15 @@ def user_helper(user) -> dict:
         "lastName": user["lastName"],
     }
 
+def product_helper(product) -> dict:
+    return {
+        "product_name":product["product_name"],
+        "brand":product["brand"],
+        "brand_link":product["brand_link"],
+        "ingredients": product["ingredients"],
+        "image": product["image"],
+        "cures": product["cures"]
+    }
 
 def user_health_status(user) -> dict:
     return {
@@ -144,10 +153,23 @@ def get_user_disease_detail(imageUrl):
         x = np.array(x, 'float32')
         a=custom[0]
         index=np.argmax(a)
-        return {
-        "Prediction":skinDiseaseTypes[ind],
-        "SeverityLevel":severityLevel[index]
-        }
+        if(severityLevel[index]=="Level_0"):
+            products=product_collection.find({'cures':skinDiseaseTypes[ind]})
+            result=[]
+            for i in products:
+                result.append(product_helper(i))
+            return {
+                "Prediction":skinDiseaseTypes[ind],
+                "SeverityLevel":severityLevel[index],
+                "Suggested_Products":result
+            }
+        else:
+            return {
+            "Prediction":skinDiseaseTypes[ind],
+            "SeverityLevel":severityLevel[index],
+            "Suggestion":"Please consult nearby doctors"
+            }
     return {
-        "Prediction":skinDiseaseTypes[ind]
+        "Prediction":skinDiseaseTypes[ind],
+        "Suggestion":"Please consult nearby doctors"
         }
