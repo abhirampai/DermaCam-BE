@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, File, UploadFile
 from ..schemas.RegisterUserSchema import RegisterUserSchema, RegisterResponseModel, ResetPasswordSchema
 from ..schemas.PatientHealthSchema import PatientHealthSchema, GetHealthStatus
 from ..schemas.LoginUserSchema import LoginUserSchema, LoginResponseModel, GetUserResponseModel, ResetPasswordResponseModel
 from ..services import (user_service, auth_service,)
+from ..db import cloudinary
 
 router = APIRouter()
 auth_service = auth_service.AuthHandler()
@@ -41,3 +42,8 @@ def get_status(userid=Depends(auth_service.auth_wrapper)):
 @router.get('/userHealthDetail', response_description="Get user's health details")
 def get_user_health_details(userid=Depends(auth_service.auth_wrapper)):
     return user_service.get_user_health_detail(userid)
+
+@router.post("/uploadImage", response_description="Return The disease to be detected")
+async def uploadImage(image: UploadFile = File(...)):
+    result = cloudinary.uploader.upload(image.file)
+    return user_service.get_user_disease_detail(result['url'])
