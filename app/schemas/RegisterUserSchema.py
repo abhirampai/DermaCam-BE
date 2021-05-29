@@ -5,6 +5,8 @@ class RegisterUserSchema(BaseModel):
     firstName: str
     lastName: str
     email: EmailStr
+    lat: str
+    long: str
     password: str
     confirmPassword: str
 

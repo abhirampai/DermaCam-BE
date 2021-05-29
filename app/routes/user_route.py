@@ -47,3 +47,7 @@ def get_user_health_details(userid=Depends(auth_service.auth_wrapper)):
 async def uploadImage(image: UploadFile = File(...)):
     result = cloudinary.uploader.upload(image.file)
     return user_service.get_user_disease_detail(result['url'])
+
+@router.get('/findNearbyDoctors', response_description="Return Nearby Doctors")
+async def getDoctor(userid=Depends(auth_service.auth_wrapper)):
+    return user_service.get_doctors_neaby(userid)

@@ -1,4 +1,4 @@
-from ..db import user_collection, product_collection
+from ..db import user_collection, product_collection, key
 from .auth_service import AuthHandler
 from fastapi.encoders import jsonable_encoder
 from fastapi import HTTPException
@@ -8,9 +8,11 @@ from PIL import Image
 import urllib.request
 import cv2
 import numpy as np
+import requests
 model_file = "app/model/DiseaseDetectionModel.tflite"
 severity_file = "app/model/SeverityModel.tflite"
-
+search_url = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+details_url = "https://maps.googleapis.com/maps/api/place/details/json"
 auth_service = AuthHandler()
 
 
@@ -36,6 +38,14 @@ def product_helper(product) -> dict:
         "ingredients": product["ingredients"],
         "image": product["image"],
         "cures": product["cures"]
+    }
+
+def doctor_helper(doctor) -> dict:
+    return {
+        "doctor_name":doctor["doctor_name"],
+        "address":doctor["address"],
+        "clinic_timings":doctor["clinic_timings"],
+        "booking_url":doctor["booking_url"]
     }
 
 
@@ -76,6 +86,19 @@ def login_user(user):
 def get_user(userid):
     currentUser = user_collection.find_one({'_id': ObjectId(userid)})
     return {"data": user_helper(currentUser)}
+
+def get_doctors_neaby(userid):
+    currentUser = user_collection.find_one({'_id': ObjectId(userid)})
+    search_payload = {"key":key, "query":"search skin clinic near me","location":currentUser['lat']+","+currentUser['lon'],"radius":"10000"}
+    search_req = requests.get(search_url, params=search_payload)
+    search_json = search_req.json()
+    place_id = search_json["results"][0]["place_id"]
+    details_payload = {"key":key, "placeid":place_id}
+    details_resp = requests.get(details_url, params=details_payload)
+    details_json = details_resp.json()
+
+    url = details_json["result"]["url"]
+    return {'result' : url}
 
 
 def add_patient_details(userid, patient_data):
