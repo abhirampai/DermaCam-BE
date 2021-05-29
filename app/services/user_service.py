@@ -99,6 +99,7 @@ def get_doctors_neaby(userid):
 
     url = details_json["result"]["url"]
     return {'result' : url}
+    # https://www.google.com/maps/place/?place_id:place_id'
 
 
 def add_patient_details(userid, patient_data):
