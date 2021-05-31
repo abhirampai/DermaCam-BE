@@ -89,16 +89,17 @@ def get_user(userid):
 
 def get_doctors_neaby(userid):
     currentUser = user_collection.find_one({'_id': ObjectId(userid)})
-    search_payload = {"key":key, "query":"search skin clinic near me","location":currentUser['lat']+","+currentUser['lon'],"radius":"10000"}
+    search_payload = {"key":key, "query":"search skin clinic near me","location":currentUser['lat']+","+currentUser['lon'],"radius":10000}
     search_req = requests.get(search_url, params=search_payload)
     search_json = search_req.json()
-    place_id = search_json["results"][0]["place_id"]
-    details_payload = {"key":key, "placeid":place_id}
-    details_resp = requests.get(details_url, params=details_payload)
-    details_json = details_resp.json()
-
-    url = details_json["result"]["url"]
-    return {'result' : url}
+    for i in range(0,len(search_json['results'])):
+        place_id = search_json['results'][i]["place_id"]
+        details_payload = {"key":key, "placeid":place_id}
+        details_resp = requests.get(details_url, params=details_payload)
+        details_json = details_resp.json()
+        url = details_json["result"]["url"]
+        search_json['results'][i]['url']=url
+    return {'result' : search_json}
     # https://www.google.com/maps/place/?place_id:place_id'
 
 
