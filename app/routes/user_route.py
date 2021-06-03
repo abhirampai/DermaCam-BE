@@ -33,12 +33,6 @@ def add_patient_details(patient_data: PatientHealthSchema, userid=Depends(auth_s
 def reset_password(reset_password: ResetPasswordSchema):
     return user_service.reset_password(reset_password)
 
-
-@router.get('/userHealthDetailStatus', response_description="Check whether user's health details are entered", response_model=GetHealthStatus)
-def get_status(userid=Depends(auth_service.auth_wrapper)):
-    return user_service.get_health_detail_status(userid)
-
-
 @router.get('/userHealthDetail', response_description="Get user's health details")
 def get_user_health_details(userid=Depends(auth_service.auth_wrapper)):
     return user_service.get_user_health_detail(userid)
