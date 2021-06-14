@@ -62,6 +62,11 @@ def add_user(user):
     user.password = hashed_password
     del user.confirmPassword
     new_user = jsonable_encoder(user)
+    user["patient_data"]={
+        "allergies":[],
+        "current_medications":[],
+        "other_comments": ""
+    }
     user_collection.insert_one(new_user)
     del user.password
     return {"data": user,
@@ -88,7 +93,7 @@ def get_user(userid):
 
 def get_doctors_neaby(userid):
     currentUser = user_collection.find_one({'_id': ObjectId(userid)})
-    search_payload = {"key":key, "query":"search skin clinic near me","location":currentUser['lat']+","+currentUser['lon'],"radius":10000}
+    search_payload = {"key":key, "query":"search skin clinic near me","location":currentUser['lat']+","+currentUser['long'],"radius":"10000"}
     search_req = requests.get(search_url, params=search_payload)
     search_json = search_req.json()
     for i in range(0,len(search_json['results'])):
