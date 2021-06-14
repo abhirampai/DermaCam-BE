@@ -62,7 +62,7 @@ def add_user(user):
     user.password = hashed_password
     del user.confirmPassword
     new_user = jsonable_encoder(user)
-    user["patient_data"]={
+    new_user["patient_data"]={
         "allergies":[],
         "current_medications":[],
         "other_comments": ""
