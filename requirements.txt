@@ -4,7 +4,7 @@ certifi==2020.12.5
 cffi==1.14.5
 chardet==4.0.0
 click==7.1.2
-cloudinary==1.25.0
+cloudinary==1.29.0
 dnspython==2.1.0
 email-validator==1.1.2
 fastapi==0.63.0
