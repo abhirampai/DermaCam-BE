@@ -29,4 +29,4 @@ https://github.com/google-coral/pycoral/releases/download/v1.0.1/tflite_runtime-
 toml==0.10.2
 typing-extensions==4.2.0
 urllib3==1.26.9
-uvicorn==0.18.1
+uvicorn==0.18.2
