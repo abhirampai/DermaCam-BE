@@ -1,4 +1,4 @@
-autopep8==1.7.0
+autopep8==1.7.1
 bcrypt==4.0.1
 certifi==2022.9.24
 cffi==1.15.1
